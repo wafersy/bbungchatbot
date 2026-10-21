@@ -1,0 +1,691 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>뿡이 방귀병 치료소</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap">
+<style>
+/* Layout: 대화 카드(왼쪽) + 처방전 종이(오른쪽, 폰에서는 아래). 두꺼운 테두리와 눌리는 스티커 버튼으로 어린이 진료소 느낌. */
+:root {
+  --bg: #EAF7F1;
+  --surface: #FFFFFF;
+  --surface-2: #F1FAF6;
+  --ink: #14323B;
+  --muted: #46676E;
+  --line: #C3E2D5;
+  --sun: #FFD23F;
+  --sun-ink: #14323B;
+  --sun-soft: #FFF0B8;
+  --coral: #E8553A;
+  --coral-soft: #FFE2D8;
+  --mint: #1F9E89;
+  --mint-soft: #CFF1E6;
+  --paper: #FBFDFF;
+  --paper-line: #B9D4E3;
+  --stamp: #D63E5A;
+  --mascot: #DFF58F;
+  --mascot-line: #14323B;
+  --puff: #B5DE72;
+  --font-display: 'Jua', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-body: 'Gowun Dodum', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-hand: 'Gaegu', 'Gowun Dodum', 'Apple SD Gothic Neo', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1D22; --surface: #152E37; --surface-2: #1B3A45; --ink: #E9F6F1; --muted: #A7C5C2;
+    --line: #2B4C56; --sun-soft: #4B4220; --coral: #FF8A6E; --coral-soft: #4C2C25; --mint: #5FD1BA;
+    --mint-soft: #1B4A44; --paper: #1B353F; --paper-line: #3A5E6A; --stamp: #FF7C95;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1D22; --surface: #152E37; --surface-2: #1B3A45; --ink: #E9F6F1; --muted: #A7C5C2;
+  --line: #2B4C56; --sun-soft: #4B4220; --coral: #FF8A6E; --coral-soft: #4C2C25; --mint: #5FD1BA;
+  --mint-soft: #1B4A44; --paper: #1B353F; --paper-line: #3A5E6A; --stamp: #FF7C95;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-block: 20px 44px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+.app { max-width: 1100px; margin: 0 auto; }
+
+/* 머리말 */
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-bottom: 18px; }
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.mascot { width: 92px; height: auto; flex: none; overflow: visible; }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 5.5vw, 36px); line-height: 1.15; text-wrap: balance; }
+.sub { margin: 4px 0 0; color: var(--muted); font-size: 15px; max-width: 34em; }
+.status { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 4px 12px; border-radius: 999px; background: var(--coral-soft); font-size: 14px; }
+.status.well { background: var(--mint-soft); }
+.ghost { border: 2px solid var(--line); background: transparent; border-radius: 12px; padding: 8px 14px; font-size: 14px; color: var(--muted); }
+.ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+/* 뿡이 표정 */
+.mascot .face-well, .mascot .spark { display: none; }
+.mascot.healed .face-sick, .mascot.healed .puffs { display: none; }
+.mascot.healed .face-well, .mascot.healed .spark { display: inline; }
+.puffs circle { animation: drift 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.puffs circle:nth-child(2) { animation-delay: .6s; }
+.puffs circle:nth-child(3) { animation-delay: 1.2s; }
+.mascot.puffing .puffs circle { animation: burst .7s ease-out 2; }
+@keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes burst { 0% { transform: scale(1); } 50% { transform: scale(1.7) translateX(-4px); } 100% { transform: scale(1); } }
+
+/* 본문 격자 */
+.grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.card { background: var(--surface); border: 3px solid var(--ink); border-radius: 26px; padding: 14px; box-shadow: 0 6px 0 var(--ink); }
+
+/* 대화 */
+#log { height: clamp(300px, 46vh, 460px); overflow-y: auto; padding: 6px 4px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+.row { display: flex; align-items: flex-end; gap: 10px; min-width: 0; }
+.row.me { justify-content: flex-end; }
+.avatar { width: 42px; height: 39px; flex: none; }
+.col { display: flex; flex-direction: column; gap: 3px; min-width: 0; max-width: min(34em, 86%); }
+.row.me .col { align-items: flex-end; }
+.who { font-size: 13px; color: var(--muted); padding: 0 6px; }
+.bubble { font-family: var(--font-display); font-size: 19px; line-height: 1.55; padding: 11px 16px; border-radius: 20px 20px 20px 6px; background: var(--surface-2); border: 2px solid var(--line); word-break: keep-all; overflow-wrap: anywhere; min-width: 0; }
+.row.me .bubble { background: var(--coral-soft); border-color: transparent; border-radius: 20px 20px 6px 20px; }
+.bubble p { margin: 0; }
+.bubble p + p { margin-top: 6px; }
+.rx-link { margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--ink); background: var(--sun); color: var(--sun-ink); border-radius: 12px; padding: 4px 12px; font-family: var(--font-body); font-size: 14px; }
+.divider { align-self: center; font-size: 14px; background: var(--mint-soft); border-radius: 999px; padding: 4px 14px; text-align: center; }
+.typing { display: inline-flex; gap: 5px; padding: 14px 16px; border-radius: 20px 20px 20px 6px; background: var(--surface-2); border: 2px solid var(--line); }
+.typing i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .3; } 40% { opacity: 1; } }
+
+/* 상황 버튼 */
+.tray { margin-top: 10px; padding-top: 12px; border-top: 3px dashed var(--line); }
+.tray-label { margin: 0 0 8px; font-family: var(--font-display); font-size: 17px; }
+.sits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sit { position: relative; display: flex; align-items: center; justify-content: center; min-height: 76px; padding: 12px 14px; text-align: center; font-family: var(--font-display); font-size: 20px; line-height: 1.3; word-break: keep-all; border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 5px 0 var(--ink); background: var(--mint-soft); color: var(--ink); transition: transform .08s, box-shadow .08s; }
+.sit:nth-child(2) { background: var(--sun-soft); }
+.sit:nth-child(3) { background: var(--coral-soft); }
+.sit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); }
+.sit:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.sit[aria-pressed="true"] { outline: 4px solid var(--mint); outline-offset: 2px; }
+.sit:disabled { opacity: .6; cursor: default; }
+.sit .ck { display: none; position: absolute; top: -10px; right: -6px; width: 28px; height: 28px; border-radius: 50%; background: var(--mint); border: 3px solid var(--ink); place-items: center; }
+.sit.done .ck { display: grid; }
+.tray.compact .sit { min-height: 0; padding: 8px 10px; font-size: 15px; box-shadow: 0 3px 0 var(--ink); }
+.tray.compact .tray-label { font-size: 15px; }
+
+/* 입력 */
+#form { display: flex; gap: 10px; margin-top: 14px; }
+#answer { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 19px; padding: 12px 14px; border: 3px solid var(--ink); border-radius: 16px; background: var(--surface); color: var(--ink); }
+#answer::placeholder { color: var(--muted); opacity: .85; }
+#send { flex: none; min-height: 52px; padding: 0 22px; font-family: var(--font-display); font-size: 19px; background: var(--sun); color: var(--sun-ink); border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 4px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
+#send:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+#send:disabled, #answer:disabled { opacity: .55; cursor: default; }
+
+/* 처방전 */
+.rx { position: sticky; top: 16px; background: var(--paper); border: 3px dashed var(--paper-line); border-radius: 22px; padding: 18px 18px 20px; }
+.rx-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 3px solid var(--ink); padding-bottom: 10px; }
+.rx-head h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 30px; }
+.rx-mark { font-family: var(--font-display); font-size: 22px; background: var(--mint); color: #FFFFFF; border-radius: 10px; padding: 0 10px; transform: rotate(-4deg); }
+.rx-meta { margin: 10px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0 12px; font-family: var(--font-hand); font-size: 20px; line-height: 1.5; }
+.rx-meta dt { color: var(--muted); }
+.rx-meta dd { margin: 0; }
+.rx-title { margin: 14px 0 4px; font-family: var(--font-display); font-size: 17px; }
+.rx-list { list-style: none; margin: 0; padding: 0; }
+.rx-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 9px 2px; border-bottom: 2px dotted var(--paper-line); }
+.rx-list .tag { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.rx-list .txt { font-family: var(--font-hand); font-weight: 700; font-size: 22px; line-height: 1.3; overflow-wrap: anywhere; }
+.rx-list li.fresh { animation: flash 1.8s ease-out; }
+@keyframes flash { 0%, 40% { background: var(--sun-soft); } 100% { background: transparent; } }
+.rx-empty { margin: 8px 0; font-family: var(--font-hand); font-size: 21px; color: var(--muted); }
+.progress { margin-top: 16px; }
+.progress p { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.bars span { height: 12px; border-radius: 6px; background: var(--line); border: 2px solid var(--ink); }
+.bars span.on { background: var(--mint); }
+.stamp { position: absolute; right: 16px; top: 74px; transform: rotate(-12deg); font-family: var(--font-display); font-size: 34px; color: var(--stamp); border: 5px solid var(--stamp); border-radius: 14px; padding: 0 14px; background: color-mix(in srgb, var(--paper) 80%, transparent); }
+
+@media (max-width: 860px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .rx { position: relative; top: 0; }
+}
+@media (max-width: 560px) {
+  .mascot { width: 72px; }
+  .sits { grid-template-columns: minmax(0, 1fr); }
+  .tray.compact .sits { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tray.compact .sit { font-size: 13px; padding: 8px 8px; }
+  .bubble { font-size: 18px; }
+  #send { padding: 0 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="pung-mini" viewBox="0 0 140 130">
+    <path d="M30 70 C22 44 44 26 68 28 C94 26 116 44 110 70 C114 96 92 110 70 108 C46 110 26 96 30 70Z" fill="var(--mascot)" stroke="var(--mascot-line)" stroke-width="6"/>
+    <circle cx="56" cy="62" r="6" fill="var(--mascot-line)"/>
+    <circle cx="86" cy="62" r="6" fill="var(--mascot-line)"/>
+    <ellipse cx="46" cy="79" rx="7" ry="5" fill="#FF9C86"/>
+    <ellipse cx="96" cy="79" rx="7" ry="5" fill="#FF9C86"/>
+    <path d="M58 89 q4 -7 8 0 t8 0 t8 0" fill="none" stroke="var(--mascot-line)" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg class="mascot" id="mascot" viewBox="0 0 140 130" role="img" aria-label="뿡이 캐릭터">
+        <g class="puffs">
+          <circle cx="16" cy="42" r="8" fill="var(--puff)"/>
+          <circle cx="8" cy="62" r="5.5" fill="var(--puff)"/>
+          <circle cx="24" cy="24" r="5" fill="var(--puff)"/>
+        </g>
+        <ellipse cx="54" cy="112" rx="14" ry="7" fill="var(--mascot)" stroke="var(--mascot-line)" stroke-width="4"/>
+        <ellipse cx="88" cy="112" rx="14" ry="7" fill="var(--mascot)" stroke="var(--mascot-line)" stroke-width="4"/>
+        <path d="M30 70 C22 44 44 26 68 28 C94 26 116 44 110 70 C114 96 92 110 70 108 C46 110 26 96 30 70Z" fill="var(--mascot)" stroke="var(--mascot-line)" stroke-width="4"/>
+        <circle cx="56" cy="62" r="5" fill="var(--mascot-line)"/>
+        <circle cx="86" cy="62" r="5" fill="var(--mascot-line)"/>
+        <ellipse cx="46" cy="79" rx="7" ry="5" fill="#FF9C86"/>
+        <ellipse cx="96" cy="79" rx="7" ry="5" fill="#FF9C86"/>
+        <g class="face-sick" fill="none" stroke="var(--mascot-line)" stroke-width="4" stroke-linecap="round">
+          <path d="M48 48 l12 4 M94 48 l-12 4"/>
+          <path d="M58 89 q4 -7 8 0 t8 0 t8 0"/>
+        </g>
+        <g class="face-well" fill="none" stroke="var(--mascot-line)" stroke-width="4" stroke-linecap="round">
+          <path d="M58 82 q13 15 26 0 z" fill="#FF9C86"/>
+        </g>
+        <g class="spark" fill="var(--sun)" stroke="var(--mascot-line)" stroke-width="2.5" stroke-linejoin="round">
+          <path d="M122 18 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/>
+          <path d="M16 40 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/>
+        </g>
+      </svg>
+      <div>
+        <h1>뿡이 방귀병 치료소</h1>
+        <p class="sub">높임표현을 가르쳐서 뿡이의 방귀병을 고쳐 주세요.</p>
+        <span class="status" id="status">방귀병에 걸린 뿡이</span>
+      </div>
+    </div>
+    <button type="button" class="ghost" id="reset">다시 시작</button>
+  </header>
+
+  <main class="grid">
+    <section class="card" aria-label="뿡이와 대화">
+      <div id="log" role="log" aria-live="polite" aria-label="대화 내용" tabindex="0"></div>
+
+      <div class="tray" id="tray">
+        <p class="tray-label">어떤 상황에서 말해 볼까?</p>
+        <div class="sits" id="sits">
+          <button type="button" class="sit" data-n="1" aria-pressed="false">1. 선생님을 길에서 만났을 때<span class="ck" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <button type="button" class="sit" data-n="2" aria-pressed="false">2. 할머니 생일을 축하할 때<span class="ck" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <button type="button" class="sit" data-n="3" aria-pressed="false">3. 교실에서 발표할 때<span class="ck" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        </div>
+      </div>
+
+      <form id="form" autocomplete="off">
+        <label class="sr" for="answer">의사선생님의 대답</label>
+        <input id="answer" type="text" maxlength="120" placeholder="여기에 대답을 써 주세요" enterkeyhint="send">
+        <button type="submit" id="send">보내기</button>
+      </form>
+    </section>
+
+    <aside class="rx" id="prescription" aria-label="처방전">
+      <div class="rx-head">
+        <h2>처방전</h2>
+        <span class="rx-mark" aria-hidden="true">Rx</span>
+      </div>
+      <dl class="rx-meta">
+        <dt>환자</dt><dd>뿡이</dd>
+        <dt>병명</dt><dd>방귀병 (높임표현을 몰라서 생긴 병)</dd>
+        <dt>의사</dt><dd>의사선생님</dd>
+      </dl>
+      <p class="rx-title">처방 내용</p>
+      <p class="rx-empty" id="rxEmpty">아직 비어 있어. 의사선생님이 가르쳐 주면 여기에 적을게!</p>
+      <ol class="rx-list" id="rxList"></ol>
+      <div class="progress">
+        <p id="progressText">치료 진행 0 / 3</p>
+        <div class="bars" id="bars"><span></span><span></span><span></span></div>
+      </div>
+      <div class="stamp" id="stamp" hidden>완치!</div>
+    </aside>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (s) { return document.querySelector(s); };
+  var log = $('#log'), tray = $('#tray'), form = $('#form'), input = $('#answer'), sendBtn = $('#send');
+  var rxList = $('#rxList'), rxEmpty = $('#rxEmpty'), mascot = $('#mascot'), statusEl = $('#status');
+  var sitBtns = Array.prototype.slice.call(document.querySelectorAll('.sit'));
+  var resetBtn = $('#reset');
+
+  var GREETING = '안녕! 나는 뿡이야. 나는 높임표현을 몰라서 방귀병에 걸렸어. 선생님이 높임표현을 가르쳐 주면 병이 나을 수 있대! 어떤 상황에서 말해 볼까?';
+  var LABELS = { 1: '1. 선생님을 길에서 만났을 때', 2: '2. 할머니 생일을 축하할 때', 3: '3. 교실에서 발표할 때' };
+  var WRONG = '어? 이상한 방귀 냄새가 나는데… 정말 맞아? 교과서나 짝꿍이랑 한 번만 더 확인해 줄래?';
+  var AWKWARD = '이게 맞아? 왠지 뿡 냄새가 나는데?';
+  var THANKS = '고마워, 의사선생님!';
+  var WHY = '왜 그렇게 바꿔야 해?';
+  var AHA = '아하, 그렇구나!';
+  var OFFTOPIC = '그건 잘 모르겠어. 우리 높임표현 이야기를 계속하자!';
+  var SECRET = '그건 비밀로 해야 해. 우리 상황 놀이를 계속하자!';
+  var FINAL = '고맙습니다. 의사선생님 덕분에 내 방귀병이 다 나았어요';
+  var HINT3 = '많은 사람들 앞에서는 어떻게 말해야 할까?';
+  var NEXT = '이제 다른 상황도 골라 볼까?';
+  var WROTE = '처방전에 적었어!';
+
+  var RULES = {
+    yo: '높임 표현을 쓸 때에는 끝에 요를 붙인다.',
+    elder: '할아버지, 할머니, 부모님, 선생님 같은 윗사람께는 높임표현을 쓰고, 친구나 동생에게는 안 써도 된다.',
+    words: '할머니께 말할 때는 ‘생신’, ‘축하드려요’처럼 높임 단어를 써야 한다.',
+    crowd: '많은 사람들 앞에서는 높임 표현을 써야 한다.',
+    present: '발표할 때는 ‘제가’, ‘발표해 보겠습니다’처럼 ‘-습니다’로 말한다.'
+  };
+
+  var WORDS = [
+    { base: '밥', hon: '진지', re: /진지/ },
+    { base: '먹다', hon: '드시다', re: /드시|드세|드셔|드십|드셨/ },
+    { base: '자다', hon: '주무시다', re: /주무시|주무세|주무셔|주무십|주무셨/ },
+    { base: '있다', hon: '계시다', re: /계시|계세|계셔|계십|계셨/ },
+    { base: '말', hon: '말씀', re: /말씀/ },
+    { base: '집', hon: '댁', re: /댁/ },
+    { base: '나이', hon: '연세', re: /연세/ },
+    { base: '주다', hon: '드리다', re: /드리다|드려|드립|드렸|드릴/ },
+    { base: '묻다', hon: '여쭙다', re: /여쭙|여쭈|여쭤|여쭸/ }
+  ];
+
+  var PII = [
+    /\d{2,4}[-\s.]?\d{3,4}[-\s.]?\d{4}/,
+    /전화번호|휴대폰|핸드폰|주소|이메일|@/,
+    /(내|제|나의|저의)\s*이름/,
+    /이름(은|이)\s*[가-힣]{2,4}/,
+    /[가-힣]{2,}\s*초등학교|[가-힣]{2,}초\s*학생/,
+    /\d\s*학년\s*\d+\s*반/
+  ];
+  var OFF = /날씨|게임|유튜브|마인크래프트|로블록스|포켓몬|숙제|수학|영어|급식|아이돌|연예인|노래|몇\s*살|너\s*누구|너는?\s*뭐|뭐\s*좋아|좋아하는|사랑해|바보|멍청|똥|대통령|정답\s*알려/;
+  var HON = /높임|높여|높게|높은|존댓|존대|공손|예의|어른|윗사람|웃어른|존경|존중/;
+
+  var state;
+  function freshState() {
+    return { sit: null, stage: 'idle', busy: false, fails: 0, wrong: 0, vfails: 0, puff: 0, done: [], rules: [] };
+  }
+
+  /* ---------- 작은 도구 ---------- */
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function norm(s) { return s.replace(/[\s.,!?~…'"“”‘’·]/g, ''); }
+  function clean(s) { return s.replace(/\s+/g, ' ').replace(/^["“”'‘’]+|["“”'‘’]+$/g, '').trim(); }
+  function hangul(s) { return (s.match(/[가-힣]/g) || []).length; }
+  function sensible(s, min) { return hangul(s) >= (min || 4) && !/(.)\1{3,}/.test(s); }
+  function hasBatchim(w) {
+    var c = w.charCodeAt(w.length - 1) - 0xAC00;
+    return c >= 0 && c <= 11171 && c % 28 !== 0;
+  }
+  function eunneun(w) { return w + (hasBatchim(w) ? '은' : '는'); }
+  function endsPolite(s) { return /[가-힣]요(?![가-힣])/.test(s); }
+  function endsFormal(s) { return /[가-힣]니다(?![가-힣])/.test(s); }
+  function scrollLog() { requestAnimationFrame(function () { log.scrollTop = log.scrollHeight; }); }
+
+  /* ---------- 화면 그리기 ---------- */
+  function avatar() {
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', 'avatar');
+    svg.setAttribute('viewBox', '0 0 140 130');
+    svg.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS(ns, 'use');
+    use.setAttribute('href', '#pung-mini');
+    svg.appendChild(use);
+    return svg;
+  }
+
+  function addRow(who, item) {
+    var row = document.createElement('div');
+    row.className = 'row ' + (who === 'me' ? 'me' : 'pung');
+    if (who !== 'me') row.appendChild(avatar());
+    var col = document.createElement('div');
+    col.className = 'col';
+    var label = document.createElement('span');
+    label.className = 'who';
+    label.textContent = who === 'me' ? '의사선생님' : '뿡이';
+    var bub = document.createElement('div');
+    bub.className = 'bubble';
+    item.lines.forEach(function (l) {
+      var p = document.createElement('p');
+      p.textContent = l;
+      bub.appendChild(p);
+    });
+    if (item.rx) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rx-link';
+      b.textContent = '처방전 보기';
+      b.addEventListener('click', function () {
+        $('#prescription').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      bub.appendChild(b);
+    }
+    col.appendChild(label);
+    col.appendChild(bub);
+    row.appendChild(col);
+    log.appendChild(row);
+    scrollLog();
+  }
+
+  function addDivider(text) {
+    var d = document.createElement('div');
+    d.className = 'divider';
+    d.textContent = text;
+    log.appendChild(d);
+    scrollLog();
+  }
+
+  function showTyping() {
+    var row = document.createElement('div');
+    row.className = 'row pung';
+    row.appendChild(avatar());
+    var t = document.createElement('div');
+    t.className = 'typing';
+    t.setAttribute('aria-hidden', 'true');
+    t.innerHTML = '<i></i><i></i><i></i>';
+    row.appendChild(t);
+    log.appendChild(row);
+    scrollLog();
+    return row;
+  }
+
+  function puffEffect() {
+    mascot.classList.add('puffing');
+    setTimeout(function () { mascot.classList.remove('puffing'); }, 1500);
+  }
+
+  async function say(items) {
+    for (var i = 0; i < items.length; i++) {
+      var o = Array.isArray(items[i]) ? { lines: items[i] } : items[i];
+      var typing = showTyping();
+      await sleep(o.delay || 520);
+      typing.remove();
+      if (o.run) o.run();
+      addRow('pung', o);
+      if (o.lines[0].indexOf('뿌웅~') === 0) puffEffect();
+    }
+  }
+
+  function renderRx(freshKey) {
+    rxList.innerHTML = '';
+    state.rules.forEach(function (r, i) {
+      var li = document.createElement('li');
+      if (r.key === freshKey) li.className = 'fresh';
+      var tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = '처방 ' + (i + 1);
+      var txt = document.createElement('span');
+      txt.className = 'txt';
+      txt.textContent = r.text;
+      li.appendChild(tag);
+      li.appendChild(txt);
+      rxList.appendChild(li);
+    });
+    rxEmpty.hidden = state.rules.length > 0;
+  }
+
+  function addRule(key, text) {
+    for (var i = 0; i < state.rules.length; i++) { if (state.rules[i].key === key) return false; }
+    state.rules.push({ key: key, text: text });
+    renderRx(key);
+    return true;
+  }
+
+  function setUI() {
+    var off = state.busy;
+    input.disabled = off;
+    sendBtn.disabled = off;
+    resetBtn.disabled = off;
+    sitBtns.forEach(function (b) {
+      var n = Number(b.dataset.n);
+      b.disabled = off;
+      b.setAttribute('aria-pressed', state.sit === n ? 'true' : 'false');
+      b.classList.toggle('done', state.done.indexOf(n) !== -1);
+    });
+    tray.classList.toggle('compact', state.sit !== null);
+    var bars = document.querySelectorAll('#bars span');
+    for (var i = 0; i < bars.length; i++) bars[i].classList.toggle('on', i < state.done.length);
+    $('#progressText').textContent = '치료 진행 ' + state.done.length + ' / 3';
+    var healed = state.done.length === 3;
+    mascot.classList.toggle('healed', healed);
+    $('#stamp').hidden = !healed;
+    statusEl.classList.toggle('well', healed);
+    statusEl.textContent = healed ? '방귀병이 다 나았어요' : '방귀병에 걸린 뿡이';
+  }
+
+  /* ---------- 대화 진행 ---------- */
+  async function wrongAnswer() {
+    state.wrong++;
+    await say([[WRONG]]);
+    if (state.wrong % 3 === 0) await say([['천천히 해도 괜찮아. 도와줘서 고마워, 의사선생님!']]);
+  }
+
+  async function finishSituation(n) {
+    if (state.done.indexOf(n) === -1) state.done.push(n);
+    state.stage = 'idle';
+    state.sit = null;
+    setUI();
+    if (state.done.length === 3) {
+      await say([[FINAL]]);
+    } else {
+      await say([[NEXT]]);
+    }
+  }
+
+  async function startSituation(n) {
+    if (state.busy) return;
+    state.busy = true;
+    state.sit = n;
+    state.stage = 'fix' + n;
+    state.fails = 0; state.wrong = 0; state.vfails = 0;
+    setUI();
+    addDivider(LABELS[n]);
+    var pung = '';
+    if (n !== 3 && state.puff < 2) { pung = '뿌웅~ '; state.puff++; }
+    try {
+      if (n === 1) {
+        await say([[pung + '길에서 선생님을 만났어!', '나는 “선생님, 안녕! 어디 가?” 하고 말할래. 맞아?']]);
+      } else if (n === 2) {
+        var learned = state.rules.some(function (r) { return r.key === 'yo'; });
+        var sentence = learned ? '할머니, 생일 축하해요. 선물이에요.' : '할머니, 생일 축하해. 선물이야.';
+        await say([[pung + '오늘은 할머니 생일이야!', '나는 “' + sentence + '” 하고 말할래. 맞아?']]);
+      } else {
+        await say([['내가 말할 거야. 잘 들어. 나는 ~ 생각해. 맞아?']]);
+      }
+    } finally {
+      state.busy = false;
+      setUI();
+      input.focus({ preventScroll: true });
+    }
+  }
+
+  /* 1번: 선생님을 길에서 만났을 때 */
+  async function fix1(t) {
+    if (!endsPolite(t)) return wrongAnswer();
+    if (!sensible(t, 3)) return say([[AWKWARD]]);
+    state.fails = 0; state.wrong = 0;
+    state.stage = 'why1';
+    await say([[THANKS, '“' + clean(t) + '”', WHY]]);
+  }
+  async function why1(t) {
+    var ok = HON.test(norm(t)) || /선생님|윗사람/.test(t);
+    if (!ok) {
+      state.fails++;
+      if (state.fails === 1) return say([['선생님께는 어떻게 말해야 할까?']]);
+      await say([['괜찮아, 의사선생님! 내가 생각해 보니까 선생님은 윗사람이라서 높여서 말하는 것 같아.']]);
+    } else {
+      await say([[AHA, '선생님 같은 윗사람께는 끝에 ‘요’를 붙여서 높여 말하는 거구나.', '친구나 동생한테는 안 붙여도 되고!']]);
+    }
+    await say([{ lines: [WROTE], rx: true, run: function () { addRule('yo', RULES.yo); addRule('elder', RULES.elder); } }]);
+    await finishSituation(1);
+  }
+
+  /* 2번: 할머니 생일을 축하할 때 */
+  async function fix2(t) {
+    var n = norm(t);
+    var ok = n.indexOf('생신') !== -1 && n.indexOf('생일') === -1 && (endsPolite(t) || endsFormal(t));
+    if (!ok) return wrongAnswer();
+    if (!sensible(t, 5)) return say([[AWKWARD]]);
+    var echo = clean(t).replace(/이예요|이어요|이에여|이예여/g, '이에요');
+    state.fails = 0; state.wrong = 0;
+    state.stage = 'why2';
+    await say([[THANKS, '“' + echo + '”', WHY]]);
+  }
+  async function why2(t) {
+    var ok = HON.test(norm(t)) || /할머니|생신|높/.test(t);
+    if (!ok) {
+      state.fails++;
+      if (state.fails === 1) return say([['할머니께는 어떻게 말해야 할까?']]);
+      await say([['괜찮아, 의사선생님! 내가 생각해 보니까 할머니는 윗사람이라서 높임 단어를 써야 하는 것 같아.']]);
+    } else {
+      await say([[AHA, '할머니께 말할 때는 ‘생신’, ‘축하드려요’처럼 높임 단어를 써야 하는 거구나.']]);
+    }
+    await say([{ lines: [WROTE], rx: true, run: function () { addRule('words', RULES.words); } }]);
+    state.stage = 'vocab2';
+    state.vfails = 0;
+    await say([['혹시 의사선생님, 또 다른 높임 단어 아는 거 있어?', '밥은 뭐라고 해?']]);
+  }
+  async function vocab2(t) {
+    if (/몰라|모르|없어|없는|몰겠/.test(t)) {
+      await say([['괜찮아, 의사선생님! 오늘은 여기까지 하고, 다음에 또 알려 줘.']]);
+      return finishSituation(2);
+    }
+    var hit = null;
+    for (var i = 0; i < WORDS.length; i++) { if (WORDS[i].re.test(t)) { hit = WORDS[i]; break; } }
+    if (!hit) {
+      state.vfails++;
+      if (state.vfails >= 2) {
+        await say([['괜찮아, 의사선생님! 오늘은 여기까지 하고, 다음에 또 알려 줘.']]);
+        return finishSituation(2);
+      }
+      return say([[WRONG]]);
+    }
+    var line = '‘' + hit.base + '’' + (hasBatchim(hit.base) ? '은' : '는') + ' 높여서 ‘' + hit.hon + '’라고 한다.';
+    var fresh = !state.rules.some(function (r) { return r.key === 'v-' + hit.hon; });
+    await say([
+      [THANKS, '‘' + hit.base + '’' + (hasBatchim(hit.base) ? '은' : '는') + ' 높여서 ‘' + hit.hon + '’라고 하는구나!'],
+      fresh
+        ? { lines: [WROTE], rx: true, run: function () { addRule('v-' + hit.hon, line); } }
+        : [ '그건 이미 처방전에 적혀 있어!' ]
+    ]);
+    await finishSituation(2);
+  }
+
+  /* 3번: 교실에서 발표할 때 */
+  var S3 = '내가 말할 거야. 잘 들어. 나는 ~ 생각해.';
+  function compose3(t) {
+    var je = /제가|저는/.test(t), bo = /보겠습니다/.test(t), end = endsFormal(t);
+    if (hangul(t) >= 6 && (bo || end)) return clean(t);
+    var s = S3;
+    if (je) s = s.replace('내가', '제가');
+    if (bo) s = s.replace('말할 거야', '발표해 보겠습니다');
+    if (end) s = s.replace('생각해', '생각합니다');
+    return s;
+  }
+  async function fix3(t) {
+    var ok = /제가|저는/.test(t) || /보겠습니다/.test(t) || endsFormal(t);
+    if (!ok) return wrongAnswer();
+    if (!sensible(t, 2)) return say([[AWKWARD]]);
+    state.fails = 0; state.wrong = 0;
+    state.stage = 'why3';
+    await say([[THANKS, '“' + compose3(t) + '”', WHY]]);
+  }
+  async function why3(t) {
+    var n = norm(t);
+    var hon = HON.test(n);
+    var crowd = /많은사람|여러사람|사람들|앞에서|발표|교실|모두/.test(n);
+    var ok = (hon && crowd) || (state.fails > 0 && hon);
+    if (!ok) {
+      state.fails++;
+      if (state.fails === 1) return say([[HINT3]]);
+      await say([['괜찮아, 의사선생님! 내가 생각해 보니까 많은 사람들 앞에서는 높임 표현을 써야 해서 그런 것 같아.']]);
+    } else {
+      await say([[AHA, '많은 사람들 앞에서는 ‘제가’, ‘발표해 보겠습니다’처럼 ‘-습니다’로 높여서 말해야 하는 거구나.']]);
+    }
+    await say([{ lines: [WROTE], rx: true, run: function () { addRule('crowd', RULES.crowd); addRule('present', RULES.present); } }]);
+    await finishSituation(3);
+  }
+
+  async function respond(t) {
+    var i;
+    for (i = 0; i < PII.length; i++) { if (PII[i].test(t)) return say([[SECRET]]); }
+    if (OFF.test(t)) return say([[OFFTOPIC]]);
+    switch (state.stage) {
+      case 'fix1': return fix1(t);
+      case 'why1': return why1(t);
+      case 'fix2': return fix2(t);
+      case 'why2': return why2(t);
+      case 'vocab2': return vocab2(t);
+      case 'fix3': return fix3(t);
+      case 'why3': return why3(t);
+      default:
+        if (state.done.length === 3) return say([['우리 병이 다 나았어! 다시 해 보고 싶으면 아래 버튼을 눌러 줘.']]);
+        return say([['먼저 아래 버튼에서 상황을 하나 골라 줘!', '그러면 같이 놀 수 있어.']]);
+    }
+  }
+
+  async function handleInput(raw) {
+    var t = raw.trim();
+    if (!t || state.busy) return;
+    addRow('me', { lines: [t] });
+    state.busy = true;
+    setUI();
+    try { await respond(t); }
+    finally {
+      state.busy = false;
+      setUI();
+      input.focus({ preventScroll: true });
+    }
+  }
+
+  /* ---------- 시작과 다시 시작 ---------- */
+  function boot() {
+    state = freshState();
+    log.innerHTML = '';
+    renderRx(null);
+    setUI();
+    addRow('pung', { lines: [GREETING] });
+    input.value = '';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = input.value;
+    input.value = '';
+    handleInput(v);
+  });
+  sitBtns.forEach(function (b) {
+    b.addEventListener('click', function () { startSituation(Number(b.dataset.n)); });
+  });
+
+  var resetTimer = null;
+  resetBtn.addEventListener('click', function () {
+    if (resetTimer) {
+      clearTimeout(resetTimer); resetTimer = null;
+      resetBtn.textContent = '다시 시작';
+      boot();
+      return;
+    }
+    resetBtn.textContent = '한 번 더 누르면 처음부터';
+    resetTimer = setTimeout(function () { resetTimer = null; resetBtn.textContent = '다시 시작'; }, 3000);
+  });
+
+  boot();
+})();
+</script>
+
+</body></html>
